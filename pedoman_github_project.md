@@ -43,6 +43,13 @@ Detail dari task diharapkan memberikan tiga hal, yaitu:
 
 Tiga elemen di atas hanya merupakan panduan, dari penerapannya bisa kurang, bisa juga lebih. Yang diharapkan adalah detail dari task berisi sebanyak mungkin info yang dibutuhkan developer untuk menyelesaikan tasknya.
 
+Khusus untuk task yang sifatnya adalah bugfix, bagian dua terkait informasi yang tersedia **harus** mencantumkan detail dari:
+- **Expected Behavior**. Yaitu kondisi hasil fitur yang seharusnya dihasilkan.
+- **Current Behavior**. Yaitu kondisi hasil dari fitur yang mengandung bug, yang ada saat task dibuat.
+- **Step to Reproduce**. Langkah-langkah serta data input yang diperlukan untuk men-*trigger* hasil keluaran yang mengandung bug.
+
+  
+
 Berikut adalah contoh-contoh Detail Task 
 
 ```
@@ -102,7 +109,46 @@ Reference to start with:
 - https://developers.google.com/identity/sign-in/web/sign-in
 - https://codevoweb.com/google-oauth-authentication-with-vue-mongodb-and-golang/
 
+```
 
+```
+[Authentication] [API] Login: Bugfix return value expiry_at 
+
+When Login Endpoint /auth/login called with field phone_login = true, the expiry_at value returned are string instead of integer value
+
+Expected Behavior:
+{
+    "code": 200,
+    "message": "successfully logged in",
+    "data": {
+        "access_token": "DwOwsK4VYFhqPdVWWZqyezxtyUEKMAUI",
+        "refresh_token": "jiHC6uPsQqUxkWTk0vgoCpPf7R8nfneB",
+        "expiry_in": 6000,
+        "session_id": "0813fd185a8aebae67525887bcbb5a7d8d60c74cc88badc1f5b47b5004c9b46fd1e1f74e99904b52b06b949fd3a62b6d"
+    }
+}
+
+Actual Behavior:
+{
+    "code": 200,
+    "message": "successfully logged in",
+    "data": {
+        "access_token": "DwOwsK4VYFhqPdVWWZqyezxtyUEKMAUI",
+        "refresh_token": "jiHC6uPsQqUxkWTk0vgoCpPf7R8nfneB",
+        "expiry_in": "6000",
+        "session_id": "0813fd185a8aebae67525887bcbb5a7d8d60c74cc88badc1f5b47b5004c9b46fd1e1f74e99904b52b06b949fd3a62b6d"
+    }
+}
+
+Step to Reproduce:
+Call the /auth/login endpoint with phone_login field value is true in the body request
+
+Request Body:
+{
+    "username": "0813123454566",
+    "password": "KS12ke>!",
+    "mobile_login": true
+}
 
 ```
 ## II. Panduan Kanban Board
